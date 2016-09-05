@@ -11,6 +11,9 @@ import android.widget.Button;
 
 import java.util.Random;
 
+import im.fir.sdk.FIR;
+import io.github.ylbfdev.wechatwallet.callback.VersionCheckCallbackImpl;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button button;
@@ -45,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
+        //检测更新
+        FIR.checkForUpdateInFIR("b88e8d1428640c52312e6fcd7a187b80", new VersionCheckCallbackImpl(this));
         button = (Button) findViewById(R.id.button);
         button2 = (Button) findViewById(R.id.button2);
 
@@ -77,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
