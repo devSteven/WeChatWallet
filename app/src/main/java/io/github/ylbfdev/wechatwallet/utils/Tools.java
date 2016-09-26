@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.WindowManager;
@@ -17,6 +19,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import io.github.ylbfdev.wechatwallet.R;
+import io.github.ylbfdev.wechatwallet.service.DownloadService;
 
 /**
  * Created by ylbf_ on 2016/9/5.
@@ -76,6 +79,8 @@ public class Tools {
      * @param message
      */
     public static void showUpdateDialog(final Context context, final String downloadUrl, final String message) {
+        if (TextUtils.isEmpty(downloadUrl))
+            return;
         AlertDialog.Builder updateAlertDialog = new AlertDialog.Builder(context);
         updateAlertDialog.setIcon(R.mipmap.ic_launcher);
         updateAlertDialog.setTitle("发现新版本");
@@ -86,16 +91,23 @@ public class Tools {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         try {
-                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri
-                                    .parse(downloadUrl)));
+                            Intent intent = new Intent(context, DownloadService.class);
+                            intent.putExtra("url", downloadUrl);
+                            context.startService(intent);
                         } catch (Exception ex) {
-
+                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(downloadUrl)));
                         }
                     }
                 }).setPositiveButton("暂不更新", null);
         if (!((Activity) context).isFinishing()) {
             AlertDialog dialog = updateAlertDialog.create();
-            dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);//将弹出框设置为全局
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Settings.canDrawOverlays(context)) {
+                    dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);//将弹出框设置为全局
+                }
+            } else {
+                dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);//将弹出框设置为全局
+            }
             dialog.setCanceledOnTouchOutside(false);//失去焦点不会消失
             dialog.show();
         }

@@ -8,8 +8,8 @@ android {
         applicationId "io.github.ylbfdev.wechatwallet"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.0.2"
     }
     buildTypes {
         debug {
@@ -26,8 +26,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:design:24.2.1'
     compile 'im.fir:fir-sdk:latest.integration@aar'
     compile group: 'com.alibaba', name: 'fastjson', version: '1.2.16'
 }

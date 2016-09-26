@@ -30,6 +30,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <service
+            android:name=".service.DownloadService"
+            android:enabled="true"/>
         <meta-data
             android:name="BUG_HD_SDK_GENERAL_KEY"
             android:value="${BUG_HD_SDK_GENERAL_VALUE}"/>
